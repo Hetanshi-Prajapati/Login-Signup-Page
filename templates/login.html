@@ -1,0 +1,212 @@
+{% load static %} 
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #674D66, #EBD6DC);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 95%;
+            width: 350px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-container h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-login {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            border-radius: 25px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: #674D66;
+            padding: 8px;
+            border-radius: 25px;
+            margin-top: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .social-btn img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        /* .social-btnim1 {
+            width: 50%;
+            margin-right:15px
+        } */
+        .remember-me {
+            display: flex;
+            justify-content: space-between;
+            color: #674D66;
+        }
+
+        .footer {
+            /* margin-top: 45px;
+            font-size: 15px;
+            color: white; */
+            /* color: #684E67; */
+            /* background-color: transparent !important; */
+            text-align: center;
+            margin-top: 20px;
+            color: #674D66;
+            font-size: 12px;
+        }
+
+        /* Social Login Buttons */
+        .btn-light {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .btn-light img {
+            width: 25px;
+            margin-right: 10px;
+        }
+
+        .btn-light:hover {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <!-- {{ form.as_p}} -->
+            <div class="mb-3">
+                <!-- {{ form.password.label_tag }}  Password label -->
+                
+                {{ form.username }}
+                {{ form.username.errors }}
+                <!-- <input type="email" name="email" class="form-control" placeholder="Email ID" required> -->
+            </div>
+            <div class="mb-3">
+                <!-- {{ form.password.label_tag }}  Password label -->
+                {{ form.password }}
+                {{ form.password.errors }}
+
+                <!-- <input type="password" name="password" class="form-control" placeholder="Password" required> -->
+            </div>
+            <!-- <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div> -->
+            <!-- <div class="mb-3" style="text-align: center; display: flex; justify-content: center; align-items: center;">
+                <input type="text" class="form-control" disabled style="color: #674D66; text-align: center; letter-spacing: 2px; font-size: 1.2em; width: auto; margin-right: 10px;">
+                <button type="button" class="btn btn-secondary" onclick="location.reload();">&#x21bb;</button>
+            </div>  -->
+            
+            <div class="mb-3" style="text-align: center; display: flex; justify-content: center; align-items: center;">
+                <!-- <input type="text" class="form-control" disabled style="color: #674D66; text-align: center; letter-spacing: 2px; font-size: 1.2em; width: auto; margin-right: 10px;"> value="B 5 3 r D E 2" -->
+                <div class="form-control" disabled style="color: #674D66; text-align: center; letter-spacing: 2px; font-size: 1.2em; width: auto; margin-right: 10px;">
+                    {{ form.captcha }}
+                    {{ form.captcha.errors }}
+                </div>
+                <!-- <button type="button" class="btn btn-secondary" onclick="refreshCaptcha(); return false;" title="Refresh CAPTCHA">&#x21bb;</button>             -->
+
+                <!-- <button type="button" class="btn btn-secondary">&#x21bb;</button> onclick="location.reload();" -->
+            </div> 
+            <!-- <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Enter the above code" required>
+            </div> -->
+            <div class="remember-me">
+                <div>
+                    <!-- <input type="checkbox" name="remember_me" id="id_remember_me"> Remember me -->
+                    {{ form.remember_me }}
+                    <label for="">Remember me</label>
+                </div>
+                <div>
+                    <a href="{% url 'account_reset_password' %}" style="color: #674D66;">Forgot password?</a>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-login w-100 mt-3" style="color: #674D66">Login</button>
+        </form>
+        <p class="mt-2" style="color: #674D66;">Don't have an account? <a href="{%url 'signup'%}"
+                style="color: #674D66; font-weight: bold;">Register</a></p>
+
+        <hr style="border-color: rgba(255, 255, 255, 0.5);">
+
+        <p style="color: white;">OR CONTINUE WITH</p>
+        <!-- <div class="social-btn">
+            <img src="img1.jpg" alt="Google">
+            Continue with Google
+        </div>
+        <div class="social-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                alt="Facebook">
+            Continue with Facebook
+        </div> -->
+        {% load socialaccount %}
+
+        <div class="d-grid gap-2">
+            <a href="{% provider_login_url 'google' %}">
+            <button class="btn btn-light border" style="color: #674D66;"><img src="https://ssl.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google"></i> Continue
+                with Google</button>
+            </a>
+            <!-- {% provider_login_url 'facebook' %} -->
+            <a href="{% provider_login_url 'facebook' %}">
+            <button class="btn btn-light border" style="color: #674D66;"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                    alt="Facebook"><i class="fab fa-facebook"></i> Continue with Facebook</button>
+            </a>
+                </div>
+
+        <p class="footer">© KAVAIYA TECHNOLOGIES INDIA Pvt. Ltd. All rights reserved</p>
+    </div>
+    {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>  
+</body>
+</html>
